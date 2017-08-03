@@ -8,9 +8,9 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+      "source": "**",
+      "function": "ssr"
+    }
+  ]
   }
 }

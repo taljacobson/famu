@@ -8,7 +8,12 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "create":"ng build -prod",
+    "postcreate": "cp src/index.html functions/dist-server && rm dist/index.html",
+    "predeploy": "npm run create",
+    "deploy": "ng build --app 1 -prod --output-hashing=none",
+    "postdeploy": "firebase deploy"
   },
   "private": true,
   "dependencies": {
@@ -22,11 +27,12 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "core-js": "^2.4.1",
+    "path": "^0.12.7",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "@angular/cli": "1.2.6",
+    "@angular/cli": "1.3.0-rc.2",
     "@angular/compiler-cli": "^4.0.0",
     "@angular/language-service": "^4.0.0",
     "@angular/platform-server": "^4.3.3",
