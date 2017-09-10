@@ -1,11 +1,25 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <md-toolbar color="primary">
   <span>Firebase Angular Material Universal</span>
+  <button md-button color="secondary" (click)="hebrewMessage()">Hebrew</button>
 </md-toolbar>
 <div style="text-align:center">
   <h1>
-    Welcome to {{title}}!
+    <bdi>
+      {{ message$ | async }}!
+    </bdi>
   </h1>
   <button md-raised-button (click)="incNum()">Counter {{ counter }}</button>
 </div>
+<hr>
+<div *ngIf="post | async as p">
+  <h2>{{p.text}}</h2>
+  <h4>Votes: {{p.likes}}</h4>
 
+  <button md-raised-button (click)="upvote()">Upvote</button>
+  <button md-raised-button (click)="downvote()">Downvote</button>
+  <button md-raised-button (click)="resetPost()">Reset</button>
+
+  <input [(ngModel)]="text" type="text">
+  <button md-raised-button color="primary" (click)="editText()">Change Title</button>
+</div>

@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { Post } from './models/post.model';
+import * as PostActions from './actions/post.actions';
 import * as firebase from 'firebase';
 
+interface AppState {
+  message: string;
+  post: Post;
+}
 
 @Component({
   selector: 'app-root',
@@ -8,8 +17,17 @@ import * as firebase from 'firebase';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+  message$: Observable<string>;
   counter = 0;
+
+  post: Observable<Post>;
+  text: string; /// form input val.
+  constructor(private store: Store<AppState>) {
+    this.message$ = this.store.select('message');
+    this.post = this.store.select('post');
+    
+  }
+
   ngOnInit() {
     if (typeof window !== 'undefined') {
       firebase.database().ref('counter').once('value', (e) => {
@@ -19,8 +37,28 @@ export class AppComponent implements OnInit {
     }
   }
 
+  editText() {
+    this.store.dispatch(new PostActions.EditText(this.text));
+  }
+
+  resetPost() {
+    this.store.dispatch(new PostActions.Reset());
+  }
+
+  upvote() {
+    this.store.dispatch(new PostActions.Upvote());
+  }
+
+  downvote() {
+    this.store.dispatch(new PostActions.Downvote());
+  }
+
   incNum() {
     this.counter++;
     firebase.database().ref('counter').set(this.counter);
+  }
+
+  hebrewMessage() {
+    this.store.dispatch({type: 'HEBREW'});
   }
 }
